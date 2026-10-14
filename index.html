@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Tally Clock</title>
+<meta name="description" content="Cumulative timers for the things you spend time on.">
+<meta name="theme-color" content="#eef1f4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#11161d" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Tally">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Tally Clock</h1>
+    <button class="sync" id="syncBtn" type="button" aria-expanded="false" aria-controls="account">
+      <span class="dot" id="dot"></span><span id="syncText">This device only</span>
+    </button>
+  </header>
+
+  <section class="account" id="account" hidden>
+    <div id="acctOut">
+      <p class="acct-lead">Sign in to keep the same timers on your phone and laptop. Use the same email and password on each device.</p>
+      <form id="authForm" class="auth">
+        <label for="email">Email</label>
+        <input type="email" id="email" autocomplete="username" required>
+        <label for="password">Password</label>
+        <input type="password" id="password" autocomplete="current-password" minlength="6" required>
+        <div class="auth-btns">
+          <button class="btn primary" type="submit" id="signInBtn">Sign in</button>
+          <button class="btn" type="button" id="signUpBtn">Create account</button>
+        </div>
+        <p class="err" id="authErr" role="alert"></p>
+      </form>
+    </div>
+    <div id="acctIn" hidden>
+      <p class="acct-lead">Signed in as <strong id="who"></strong>. Your timers sync to every device signed in with this account.</p>
+      <button class="btn" type="button" id="signOutBtn">Sign out</button>
+    </div>
+    <p class="acct-lead" id="noCloud" hidden>Sync isn't set up yet. Add your Firebase settings to <code>firebase-config.js</code> (see README). Until then, timers are saved on this device.</p>
+  </section>
+
+  <div class="ranges" role="group" aria-label="Time range">
+    <button type="button" data-r="today" aria-pressed="true">Today</button>
+    <button type="button" data-r="week" aria-pressed="false">This week</button>
+    <button type="button" data-r="all" aria-pressed="false">All time</button>
+  </div>
+
+  <div>
+    <div class="summary"><span class="lbl" id="sumLbl">Tracked today</span><span class="val" id="sumVal">0h 00m</span></div>
+    <div class="bar" id="bar"></div>
+  </div>
+
+  <ul id="list"></ul>
+
+  <form class="add" id="addForm">
+    <input type="text" id="newName" placeholder="New activity, e.g. Reading" maxlength="40" autocomplete="off" aria-label="New activity name">
+    <button class="btn primary" type="submit">Add</button>
+  </form>
+  <p class="note">Only one timer runs at a time. Starting another stops the current one.</p>
+</div>
+<script type="module" src="app.js"></script>
+</body>
+</html>
